@@ -41,14 +41,14 @@ let broker = {
 // MQTT broker creds
 // these should be kept private in .env
 let creds = {
-  clientID: "hex705-1",               // my name
+  clientID: "YOUR-DEVICE-NAME",               // my name
   mqttUser: "netart-2022",          // instance
-  mqttPW: "1TZN18keoazH1Z8F",       // secret
+  mqttPW: "LOOK IN D2L - MQTT-KEY",       // secret
 };
 
 // topic to subscribe to when you connect:
-let publishTopic = creds.clientID;
-let subscribeTopic = "hex705-2"; //"CLASSMATE_NAME";
+let publishTopic = "YOUR-NAME";
+let subscribeTopic = "CLASSMATE_NAME";
 
 // graphical elements
 let inColor, myColor, sendColor;
@@ -157,7 +157,7 @@ function publishMqttMessage() {
    let g = floor(green(sendColor));
    let b = floor(blue(sendColor));
 
-     // check for error in color 
+     // check for error in color
      if ( r == 'NaN' || g == 'NaN' || b == 'NaN'){
        console.log ( 'malformed message');
      } else {
