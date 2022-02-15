@@ -41,9 +41,9 @@ let broker = {
 // MQTT broker creds
 // these should be kept private in .env
 let creds = {
-  clientID: "hex705-glitchBrowser", // my name
+  clientID: "DEVICE-NAME", // device name
   mqttUser: "netart-2022",          // instance
-  mqttPW: "1TZN18keoazH1Z8F",       // secret
+  mqttPW: "Check D2L -- MQTT-KEY",       // secret
 };
 
 // topic to subscribe to when you connect:

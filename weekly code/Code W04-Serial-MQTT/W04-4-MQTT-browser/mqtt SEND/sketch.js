@@ -41,14 +41,14 @@ let broker = {
 // MQTT broker creds
 // these should be kept private in .env
 let creds = {
-  clientID: "steve",               // my name
+  clientID: "DEVICE-NAME",           // my name
   mqttUser: "netart-2022",          // instance
-  mqttPW: "1TZN18keoazH1Z8F",       // secret
+  mqttPW: "Check D2L -- MQTT-KEY",   // secret
 };
 
 // topic to subscribe to when you connect:
-let publishTopic = "steve-color";
-let subscribeTopic = "steve-color"; //"CLASSMATE_NAME";
+let publishTopic = "PUBLISH_TOPIC";
+let subscribeTopic = "SUBSCRIBE-TOPIC"; //"CLASSMATE_NAME";
 
 // graphical elements
 let inColor, myColor, sendColor;
