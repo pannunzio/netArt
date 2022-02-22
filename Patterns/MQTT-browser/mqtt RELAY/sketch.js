@@ -34,7 +34,7 @@ let mqttClient;
 
 // MQTT broker details:
 let broker = {
-  hostname: "netart-2022.cloud.shiftr.io", // socket needs specifc URL
+  hostname: "public.cloud.shiftr.io", // socket needs specifc URL
   port: 443,
 };
 
@@ -42,8 +42,8 @@ let broker = {
 // these should be kept private in .env
 let creds = {
   clientID: "YOUR-DEVICE-NAME",               // my name
-  mqttUser: "netart-2022",          // instance
-  mqttPW: "LOOK IN D2L - MQTT-KEY",       // secret
+  mqttUser: "public",          // instance
+  mqttPW: "public",       // secret
 };
 
 // topic to subscribe to when you connect:

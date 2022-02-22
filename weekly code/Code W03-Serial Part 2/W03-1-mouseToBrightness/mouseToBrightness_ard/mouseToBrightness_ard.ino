@@ -4,7 +4,7 @@
 #include <Scissors.h>
 
 Scissors cut;
-int ledPin = 5;
+int ledPin = 14;
 int ledState = 0;
 
 void setup() {

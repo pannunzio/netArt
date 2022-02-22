@@ -21,8 +21,12 @@
 */
 
 // how to parse the shiftr token
-// general user:password@url
 
+// the public broker URL is :
+// mqtt://public:public@public.cloud.shiftr.io
+
+
+// general user:password@url
 // MQTT://instanceName:instanceKey@shiftrURL
 
 // shiftrURL (user.cloud.shiftr.io) --> broker.hostname ( this can be public)
@@ -34,16 +38,16 @@ let mqttClient;
 
 // MQTT broker details:
 let broker = {
-  hostname: "netart-2022.cloud.shiftr.io", // socket needs specifc URL
-  port: 443,
+  hostname: "public.cloud.shiftr.io", // socket needs specifc URL
+  port: 443
 };
 
 // MQTT broker creds
 // these should be kept private in .env
 let creds = {
-  clientID: "YOUR-DEVICE-NAME", // name
-  mqttUser: "netart-2022",      // instance
-  mqttPW: "LOOK IN D2L - MQTT-KEY",            // secret
+  clientID: "YOUR_DEVICE-NAME",    // name
+  mqttUser: "public",           // instance
+  mqttPW:   "public"     // secret - in D2L if you want to use class instance
 };
 
 // topic to subscribe to when you connect:
