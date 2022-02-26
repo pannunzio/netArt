@@ -34,7 +34,7 @@ let mqttClient;
 
 // MQTT broker location and port (shiftr):
 let broker = {
-  hostname: URL_FROM_INSTANCE, // paste URL from token, put in quotes
+  hostname: "public.cloud.shiftr.io", // socket needs specifc URL
   port: 443
 };
 
@@ -42,13 +42,13 @@ let broker = {
 // these should be kept private
 let creds = {
   clientID: DEVICE_NAME_IN_QUOTES,    // "myDeviceName"
-  mqttUser: INSTANCE_OR_USER_NAME,            //  "instanceName"
-  mqttPW:   CHECK_DtwoL_FOR_MQTT_KEY // secret - from token
+  mqttUser: INSTANCE_USER,            //  "instanceName"
+  mqttPW:   CHECK_DtwoL_FOR_MQTT_KEY, // secret - from token
 };
 
 // topic to subscribe to when you connect:
-let publishTopic = "MY-PUBLISH-TOPIC";
-let subscribeTopic = "MY-PUBLISH-TOPIC"; //out of the box this loops back
+let publishTopic = "s-color";
+let subscribeTopic = "s-color"; //"CLASSMATE_NAME";
 
 // for clarity -- all graphics variables AT BOTTOM of code
 
@@ -74,7 +74,7 @@ function setup() {
   });
 
   // set callback handlers for the client:
-  mqttClient.onConnectionLost = onConnectionLost; // subscribe here
+  mqttClient.onConnectionLost = onConnectionLost;
   mqttClient.onMessageArrived = onMessageArrived;
 
   // graphical elements
@@ -106,10 +106,10 @@ function onMessageArrived(message) {
   debugIncomingMessage(message);
 
   // unpack the message - its a string of form [*,#]
-  let currentString = message.payloadString;
+  let currentString = message.payloadString; // looks for newline
   trim(currentString); // remove white space
   if (!currentString) return; // if empty
-  latestData = currentString; // for display
+  latestData = currentString; // for dislpay
 
   // parse the incoming string into elements
   elements = currentString.slice(1); // remove start byte
@@ -120,7 +120,7 @@ function onMessageArrived(message) {
   // SPECIFIC FOR SENDING COLORS
   //  error check -- I was getting lots of NaN at one point
   if ( isNaN(elements[0]) || isNaN(elements[1]) || isNaN(elements[2])){ // r=='NaN' fails quitely -- oops
-    console.log('received malformed package');
+    console.log(' received malformed package');
   } else {
     inColor = color(elements[0], elements[1],elements[2]);
   }
@@ -310,6 +310,7 @@ function mouseReleased() {
   rValue = rSlider.value();
   gValue = gSlider.value();
   bValue = bSlider.value();
+
 }
 
 
