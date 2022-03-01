@@ -10,27 +10,10 @@ created for netArt by hex705 (steve daniels) , Feb 2022
 
 */
 
-// MQTT client:
-let mqttClient;
+// for clarity -- all graphics variables AT BOTTOM of code
 
-// MQTT broker location and port (shiftr):
-let broker = {
-  hostname: URL_FROM_INSTANCE, // socket needs specifc URL
-  port: 443
-};
-
-// MQTT broker login creds
-// these should be kept private
-let creds = {
-  clientID: DEVICE_NAME_IN_QUOTES,    // "myDeviceName"
-  mqttUser: INSTANCE_OR_USER_NAME,            //  "instanceName"
-  mqttPW:   CHECK_DtwoL_FOR_MQTT_KEY // secret - from token
-};
-
-// topic to subscribe to when you connect:
-let publishTopic   = "s-color";  // when pub/sub are same you loopback data
-
-
+let serial;
+let portName = "/dev/tty.SLAB_USBtoUART";
 let theCanvas;
 let latestData="";
 let elements;
@@ -41,60 +24,26 @@ function setup() {
   cnv.position(20, 100);
   colorMode(RGB, 255);
 
-  // Create an MQTT client:
-  mqttClient = new Paho.MQTT.Client(
-    broker.hostname,     // url
-    Number(broker.port), // port
-    creds.clientID       // device name
-  );
-
-  // connect to the MQTT broker:
-  mqttClient.connect({
-    onSuccess: onConnect, // callback function for when you connect
-    userName: creds.mqttUser, // username
-    password: creds.mqttPW, // password
-    useSSL: true // use SSL
-  });
-
-  // set callback handlers for the client:
-  mqttClient.onConnectionLost = onConnectionLost;
+  //serial port
+  serial = new p5.SerialPort();    // make a new instance of the serialport library
+  serial.list();
+  serial.on('list',  gotList);
+  serial.open(portName);           // open a serial port
 
   // graphical elements
+  inColor = color(50,150,255);
   myColor = color(100,10,127);
+  sendColor = color(0,0,255);
   createSliders();
   createSendButton();
 }
 
-// called when the client connects
-function onConnect() {
-  console.log("client is connected");
-  // subscribe here :: technically you can subscribe to as many topics as
-  // you want this code is set up for one subscription
-}
 
-// called when the client loses its connection
-function onConnectionLost(response) {
-  if (response.errorCode !== 0) {
-    console.log("onConnectionLost:" + response.errorMessage);
+function gotList(thelist) {
+  print("List of Serial Ports:");
+  for (let i = 0; i < thelist.length; i++) {
+    print(i + " " + thelist[i]);
   }
-}
-
-// MQTT TALK -- called when you want to send a message:
-function publishMqttMessage(topic,package) {
-
-  // if the client is connected to the MQTT broker:
-  if (mqttClient.isConnected()) {
-
-      package = String(package);
-      let publishMessage = new Paho.MQTT.Message(package);
-      // choose the destination topic:
-      console.log('topic '+topic);
-      publishMessage.destinationName = topic;
-      // send it:
-      mqttClient.send(publishMessage);
-      // print what you sent:
-      console.log("sending :: " + publishMessage.payloadString);
-    } // end color check
 }
 
 // message builder, specific to this project
@@ -103,9 +52,9 @@ function buildColorMessage(){
   let r = floor(red(myColor));
   let g = floor(green(myColor));
   let b = floor(blue(myColor));
-    // console.log('r '+r);
-    // console.log('g '+g);
-    // console.log('b '+b);
+  // console.log('r '+r);
+  // console.log('g '+g);
+  // console.log('b '+b);
 
   // check for error in color
   if ( isNaN(r) || isNaN(g) || isNaN(b)){
@@ -113,10 +62,14 @@ function buildColorMessage(){
   } else {
     // good message send it to shiftr
     let package = String( '*' + r +',' + g + ',' + b + ',#');
-    publishMqttMessage(publishTopic,package);
+    sendSerial(package);
   }
 }
 
+function sendSerial(sendString){
+  console.log(sendString);
+  serial.write(sendString);
+}
 
 // drawing stuff
 function draw() {
