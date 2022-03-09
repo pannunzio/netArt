@@ -9,7 +9,7 @@
 //const char ssid[] = "YOUR_WIFI_NAME"; // wifi name
 //const char password[] = "YOUR_WIFI_PASSWORD"; // wifi password
 const char ssid[] = "YOUR_SSID"; // wifi name
-const char password[] = "YOUR_WIFI_PASSWORD"; // wifi password
+const char password[] = ""; // wifi password
 
 // shiftr login info
 // https://www.shiftr.io/docs/manuals/arduino
